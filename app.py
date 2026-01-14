@@ -3,7 +3,10 @@ import tempfile
 from ingest import ingest_pdfs
 from rag_chain import answer_with_verification
 from dotenv import load_dotenv
-load_dotenv()
+
+if "GROQ_API_KEY" in st.secrets:
+    os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
+
 import os
 st.set_page_config(page_title="RAG Verifier", layout="wide")
 st.title("Multi-Document RAG with Self-Verification")
@@ -54,3 +57,4 @@ if question:
                 f"📄 {doc.metadata.get('source')} — Page {doc.metadata.get('page')}"
             )
             st.write(doc.page_content[:500] + "...")
+
